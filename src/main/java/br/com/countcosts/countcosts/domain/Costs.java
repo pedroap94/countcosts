@@ -21,7 +21,7 @@ public class Costs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int value;
+    private Double value;
     private LocalDate date;
     private String type;
 

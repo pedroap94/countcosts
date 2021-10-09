@@ -1,6 +1,8 @@
 package br.com.countcosts.countcosts.service;
 
 import br.com.countcosts.countcosts.domain.Costs;
+import br.com.countcosts.countcosts.dto.CostsRequest;
+import br.com.countcosts.countcosts.mapper.CostsMapper;
 import br.com.countcosts.countcosts.repository.CostsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,18 +18,14 @@ public class CostsService {
         return costsRepository.findAll();
     }
 
-    public Costs save(Costs costs){
-        return costsRepository.save(Costs.builder()
-                        .id(costs.getId())
-                        .date(costs.getDate())
-                        .value(costs.getValue())
-                        .build());
+    public Costs save(CostsRequest costs){
+        return costsRepository.save(CostsMapper.INSTANCE.toCosts(costs));
     }
 
-    public Integer total(Integer month, Integer year) {
-        int sum;
-        List<Integer> values = costsRepository.findByMonth(month, year);
-        sum = values.stream().mapToInt(n -> n).sum();
+    public Double total(Integer month, Integer year) {
+        double sum;
+        List<Double> values = costsRepository.findByMonth(month, year);
+        sum = values.stream().mapToDouble(n -> n).sum();
         return sum;
     }
 }
