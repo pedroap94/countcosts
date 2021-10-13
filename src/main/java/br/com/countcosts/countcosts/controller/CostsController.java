@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("costs")
 @RequiredArgsConstructor
+@CrossOrigin
 public class CostsController {
     private final CostsService costsService;
 
