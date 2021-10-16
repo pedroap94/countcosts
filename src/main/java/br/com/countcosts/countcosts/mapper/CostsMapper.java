@@ -7,10 +7,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public abstract class   CostsMapper {
+public abstract class CostsMapper {
 
-    public static final CostsMapper INSTANCE= Mappers.getMapper(CostsMapper.class);
+    public static final CostsMapper INSTANCE = Mappers.getMapper(CostsMapper.class);
+
     public abstract Costs toCosts(CostsRequest costsRequest);
+
     public abstract Costs toCosts(CostsResponse costsResponse);
 
 }
