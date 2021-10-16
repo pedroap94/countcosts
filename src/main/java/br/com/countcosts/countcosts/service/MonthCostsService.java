@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -18,16 +19,8 @@ public class MonthCostsService {
         Integer monthLocal;
         Integer yearLocal;
 
-        if (month == null) {
-            monthLocal = date.getMonth().getValue();
-        } else {
-            monthLocal = month;
-        }
-        if (year == null) {
-            yearLocal = date.getYear();
-        } else {
-            yearLocal = year;
-        }
+        monthLocal = Objects.requireNonNullElseGet(month, () -> date.getMonth().getValue());
+        yearLocal = Objects.requireNonNullElseGet(year, date::getYear);
 
         return monthCostsRepository.findByMonthAndYear(monthLocal, yearLocal);
     }
