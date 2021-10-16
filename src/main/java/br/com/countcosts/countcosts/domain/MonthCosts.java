@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor
@@ -17,8 +16,8 @@ public class MonthCosts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate date;
+    private Integer month;
+    private Integer year;
     private String type;
-    @Column(table = "Valor Mensal Total")
     private double totalvalue;
 }
