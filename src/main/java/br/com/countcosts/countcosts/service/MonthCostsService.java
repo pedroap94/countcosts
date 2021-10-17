@@ -26,17 +26,16 @@ public class MonthCostsService {
         return response;
     }
 
-    public void replaceOrSave(MonthCostsRequest monthCostsRequest){
+    public void replaceOrSave(MonthCostsRequest monthCostsRequest) {
         List<MonthCosts> meet = monthCostsRepository.findByMonthAndYearAndType(monthCostsRequest.getMonth(), monthCostsRequest.getYear(), monthCostsRequest.getType());
-        if (!meet.isEmpty()){
+        if (!meet.isEmpty()) {
             Long idMeet = meet.get(0).getId();
             MonthCosts monthCosts = MonthCostsMapper.INSTANCE.toMonthCosts(monthCostsRequest);
             monthCosts.setId(idMeet);
             monthCostsRepository.save(monthCosts);
-        } else{
+        } else {
             MonthCosts monthCosts = MonthCostsMapper.INSTANCE.toMonthCosts(monthCostsRequest);
             monthCostsRepository.save(monthCosts);
         }
     }
-
 }

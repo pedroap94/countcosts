@@ -18,13 +18,13 @@ public class CostsService {
         return costsRepository.findAll();
     }
 
-    public Costs save(CostsRequest costs){
+    public Costs save(CostsRequest costs) {
         return costsRepository.save(CostsMapper.INSTANCE.toCosts(costs));
     }
 
     public Double total(Integer month, Integer year) {
         double sum;
-        List<Double> values = costsRepository.findByMonth(month, year);
+        List<Double> values = costsRepository.findByMonthAndYear(month, year);
         sum = values.stream().mapToDouble(n -> n).sum();
         return sum;
     }

@@ -29,7 +29,7 @@ public class CostsController {
     }
 
     @PostMapping
-    public ResponseEntity<Costs> save(@RequestBody @Valid CostsRequest costs){
+    public ResponseEntity<Costs> save(@RequestBody @Valid CostsRequest costs) {
         return new ResponseEntity<>(costsService.save(costs), HttpStatus.CREATED);
     }
 }

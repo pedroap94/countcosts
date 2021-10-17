@@ -9,5 +9,5 @@ import java.util.List;
 public interface CostsRepository extends JpaRepository<Costs, Long> {
 
     @Query(value = "select value from costs where (extract (month from date) = :month and extract (year from date) = :year)", nativeQuery = true)
-    List<Double> findByMonth(Integer month, Integer year);
+    List<Double> findByMonthAndYear(Integer month, Integer year);
 }
