@@ -2,15 +2,14 @@ package br.com.countcosts.countcosts.service;
 
 import br.com.countcosts.countcosts.domain.MonthCosts;
 import br.com.countcosts.countcosts.dto.MonthCostsRequest;
+import br.com.countcosts.countcosts.dto.MonthCostsResponse;
+import br.com.countcosts.countcosts.mapper.MonthCostsMapper;
 import br.com.countcosts.countcosts.repository.MonthCostsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 
 @Service
@@ -18,27 +17,26 @@ import java.util.Objects;
 public class MonthCostsService {
     private final MonthCostsRepository monthCostsRepository;
 
-    public Map<String,Double> findValueByMonthAndYear(Integer month, Integer year) {
-        LocalDate date = LocalDate.now();
-        Integer monthLocal;
-        Integer yearLocal;
-
-        monthLocal = Objects.requireNonNullElseGet(month, () -> date.getMonth().getValue());
-        yearLocal = Objects.requireNonNullElseGet(year, date::getYear);
-
-        Map<String, Double> response = new HashMap<>();
-        for(MonthCosts monthCostsResponses : monthCostsRepository.findByMonthAndYear(monthLocal, yearLocal)){
-            response.put(monthCostsResponses.getType(), monthCostsResponses.getTotalvalue());
+    public List<MonthCostsResponse> findValueByMonthAndYear(Integer month, Integer year) {
+        List<MonthCostsResponse> response = new ArrayList<>();
+        for (MonthCosts monthCosts : monthCostsRepository.findByMonthAndYear(month, year)) {
+            MonthCostsResponse monthCostsResponse = MonthCostsMapper.INSTANCE.toMonthCostsResponse(monthCosts);
+            response.add(monthCostsResponse);
         }
         return response;
     }
 
-    public void replace(MonthCostsRequest monthCostsRequest){
-        List<MonthCosts> meet = monthCostsRepository.findByMonthAndYear(monthCostsRequest.getMonth(), monthCostsRequest.getYear());
+    public void replaceOrSave(MonthCostsRequest monthCostsRequest){
+        List<MonthCosts> meet = monthCostsRepository.findByMonthAndYearAndType(monthCostsRequest.getMonth(), monthCostsRequest.getYear(), monthCostsRequest.getType());
         if (!meet.isEmpty()){
             Long idMeet = meet.get(0).getId();
+            MonthCosts monthCosts = MonthCostsMapper.INSTANCE.toMonthCosts(monthCostsRequest);
+            monthCosts.setId(idMeet);
+            monthCostsRepository.save(monthCosts);
+        } else{
+            MonthCosts monthCosts = MonthCostsMapper.INSTANCE.toMonthCosts(monthCostsRequest);
+            monthCostsRepository.save(monthCosts);
         }
-        MonthCosts monthCosts = MonthCostsMap
     }
 
 }

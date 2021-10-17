@@ -1,18 +1,18 @@
 package br.com.countcosts.countcosts.dto;
 
 import lombok.Data;
-import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
 public class CostsRequest {
     private int id;
-    @Nullable
+    @NotNull
     @Min(0)
     private Double value;
-    @Nullable
+    @NotNull
     private LocalDate date;
     private String type;
 }

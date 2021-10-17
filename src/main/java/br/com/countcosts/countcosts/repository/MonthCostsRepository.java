@@ -8,4 +8,6 @@ import java.util.List;
 public interface MonthCostsRepository extends JpaRepository<MonthCosts, Long> {
 
     List<MonthCosts> findByMonthAndYear(Integer month, Integer year);
+
+    List<MonthCosts> findByMonthAndYearAndType(Integer month, Integer year, String type);
 }

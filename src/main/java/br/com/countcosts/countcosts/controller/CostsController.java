@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("costs")
+@RequestMapping("api/v1/costs")
 @RequiredArgsConstructor
 @CrossOrigin
 public class CostsController {
@@ -24,7 +24,7 @@ public class CostsController {
     }
 
     @GetMapping(path = "total")
-    public ResponseEntity<Double> sumAllValues(@RequestParam(required = true) Integer month, @RequestParam(defaultValue = "2021") Integer year) {
+    public ResponseEntity<Double> sumAllValues(@RequestParam Integer month, @RequestParam(defaultValue = "2021") Integer year) {
         return new ResponseEntity<>(costsService.total(month, year), HttpStatus.OK);
     }
 
