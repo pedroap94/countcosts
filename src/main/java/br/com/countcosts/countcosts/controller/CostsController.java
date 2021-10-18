@@ -2,6 +2,7 @@ package br.com.countcosts.countcosts.controller;
 
 import br.com.countcosts.countcosts.domain.Costs;
 import br.com.countcosts.countcosts.dto.CostsRequest;
+import br.com.countcosts.countcosts.dto.CostsResponse;
 import br.com.countcosts.countcosts.service.CostsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,9 @@ public class CostsController {
         return new ResponseEntity<>(costsService.listAll(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "total")
-    public ResponseEntity<Double> sumAllValues(@RequestParam Integer month, @RequestParam(defaultValue = "2021") Integer year) {
-        return new ResponseEntity<>(costsService.total(month, year), HttpStatus.OK);
+    @GetMapping(path = "totalType")
+    public ResponseEntity<List<CostsResponse>> sumAllValues(@RequestParam Integer month, @RequestParam(defaultValue = "2021") Integer year) {
+        return new ResponseEntity<>(costsService.findByType(month, year), HttpStatus.OK);
     }
 
     @PostMapping

@@ -13,6 +13,6 @@ public abstract class CostsMapper {
 
     public abstract Costs toCosts(CostsRequest costsRequest);
 
-    public abstract Costs toCosts(CostsResponse costsResponse);
+    public abstract CostsResponse toCostsResponse(Costs costs);
 
 }

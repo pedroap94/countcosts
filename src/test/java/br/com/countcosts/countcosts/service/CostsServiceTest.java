@@ -73,34 +73,34 @@ class CostsServiceTest {
         Assertions.assertThat(costsReturned).isEqualTo(costs);
     }
 
-    @Test
-    @DisplayName("CostsService retornando o valor total")
-    void get_monthAndYear_returnIntegerTotalValue() {
-        //Scenario preparation
-        List<Costs> list = new ArrayList<>();
-        list.add(Costs.builder()
-                .date(LocalDate.now())
-                .id(1)
-                .value(120.0)
-                .type("U")
-                .build());
-        list.add(Costs.builder()
-                .date(LocalDate.now())
-                .id(2)
-                .value(120.0)
-                .type("M")
-                .build());
-        List<Double> values = new ArrayList<>();
-        for (Costs costsList : list) {
-            values.add(costsList.getValue());
-        }
-
-
-        //Execution
-        BDDMockito.when(costsRepository.findByMonthAndYear(LocalDate.now().getMonth().getValue(), LocalDate.now().getYear())).thenReturn(values);
-        Double totalReturned = costsService.total(LocalDate.now().getMonth().getValue(), LocalDate.now().getYear());
-
-        //Verification
-        Assertions.assertThat(totalReturned).isEqualTo(values.stream().mapToDouble(i -> i).sum());
-    }
+//    @Test
+//    @DisplayName("CostsService retornando o valor total")
+//    void get_monthAndYear_returnIntegerTotalValue() {
+//        //Scenario preparation
+//        List<Costs> list = new ArrayList<>();
+//        list.add(Costs.builder()
+//                .date(LocalDate.now())
+//                .id(1)
+//                .value(120.0)
+//                .type("U")
+//                .build());
+//        list.add(Costs.builder()
+//                .date(LocalDate.now())
+//                .id(2)
+//                .value(120.0)
+//                .type("M")
+//                .build());
+//        List<Double> values = new ArrayList<>();
+//        for (Costs costsList : list) {
+//            values.add(costsList.getValue());
+//        }
+//
+//
+//        //Execution
+//        BDDMockito.when(costsRepository.findByMonthAndYear(LocalDate.now().getMonth().getValue(), LocalDate.now().getYear())).thenReturn(values);
+//        Double totalReturned = costsService.total(LocalDate.now().getMonth().getValue(), LocalDate.now().getYear());
+//
+//        //Verification
+//        Assertions.assertThat(totalReturned).isEqualTo(values.stream().mapToDouble(i -> i).sum());
+//    }
 }
