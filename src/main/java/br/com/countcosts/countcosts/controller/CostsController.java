@@ -24,6 +24,7 @@ public class CostsController {
         return new ResponseEntity<>(costsService.listAll(), HttpStatus.OK);
     }
 
+    @CrossOrigin
     @GetMapping(path = "totalType")
     public ResponseEntity<List<CostsResponse>> sumAllValues(@RequestParam Integer month, @RequestParam(defaultValue = "2021") Integer year) {
         return new ResponseEntity<>(costsService.findByType(month, year), HttpStatus.OK);
@@ -32,5 +33,10 @@ public class CostsController {
     @PostMapping
     public ResponseEntity<Costs> save(@RequestBody @Valid CostsRequest costs) {
         return new ResponseEntity<>(costsService.save(costs), HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "valuesByType")
+    public ResponseEntity<List<CostsResponse>> valuesByType(@RequestParam Integer month, @RequestParam(defaultValue = "2021") Integer year) {
+        return new ResponseEntity<>(costsService.findAllByType(month, year), HttpStatus.OK);
     }
 }

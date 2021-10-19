@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -33,4 +35,25 @@ public class CostsService {
         return response;
     }
 
+    public List<CostsResponse> findAllByType(Integer month, Integer year) {
+        //utilizando map para se precisar no futuro adicionar mais types não quebrar o método
+        Map<String, Double> map = new HashMap<>();
+        List<CostsResponse> response = new ArrayList<>();
+        for (Costs costs : costsRepository.findByMonthAndYear(month, year)){
+            if (!map.containsKey(costs.getType())){
+                map.put(costs.getType(), costs.getValue());
+            } else {
+                Double val = map.get(costs.getType());
+                val += costs.getValue();
+                map.put(costs.getType(), val);
+            }
+        }
+        for (String key : map.keySet()){
+            CostsResponse costsResponse = new CostsResponse();
+            costsResponse.setType(key);
+            costsResponse.setValue(map.get(key));
+            response.add(costsResponse);
+        }
+        return response;
+    }
 }

@@ -2,6 +2,7 @@ package br.com.countcosts.countcosts.service;
 
 import br.com.countcosts.countcosts.domain.Costs;
 import br.com.countcosts.countcosts.dto.CostsRequest;
+import br.com.countcosts.countcosts.dto.CostsResponse;
 import br.com.countcosts.countcosts.mapper.CostsMapper;
 import br.com.countcosts.countcosts.repository.CostsRepository;
 import org.assertj.core.api.Assertions;
@@ -73,34 +74,45 @@ class CostsServiceTest {
         Assertions.assertThat(costsReturned).isEqualTo(costs);
     }
 
-//    @Test
-//    @DisplayName("CostsService retornando o valor total")
-//    void get_monthAndYear_returnIntegerTotalValue() {
-//        //Scenario preparation
-//        List<Costs> list = new ArrayList<>();
-//        list.add(Costs.builder()
-//                .date(LocalDate.now())
-//                .id(1)
-//                .value(120.0)
-//                .type("U")
-//                .build());
-//        list.add(Costs.builder()
-//                .date(LocalDate.now())
-//                .id(2)
-//                .value(120.0)
-//                .type("M")
-//                .build());
-//        List<Double> values = new ArrayList<>();
-//        for (Costs costsList : list) {
-//            values.add(costsList.getValue());
-//        }
-//
-//
-//        //Execution
-//        BDDMockito.when(costsRepository.findByMonthAndYear(LocalDate.now().getMonth().getValue(), LocalDate.now().getYear())).thenReturn(values);
-//        Double totalReturned = costsService.total(LocalDate.now().getMonth().getValue(), LocalDate.now().getYear());
-//
-//        //Verification
-//        Assertions.assertThat(totalReturned).isEqualTo(values.stream().mapToDouble(i -> i).sum());
-//    }
+    @Test
+    @DisplayName("CostsService retornando types e values de certo mẽs em certo ano")
+    void get_monthAndYear_returnListTypesAndValues() {
+        //Scenario preparation
+        List<Costs> list = new ArrayList<>();
+        list.add(Costs.builder()
+                .date(LocalDate.now())
+                .id(1)
+                .value(120.0)
+                .type("U")
+                .build());
+        list.add(Costs.builder()
+                .date(LocalDate.now())
+                .id(2)
+                .value(120.0)
+                .type("M")
+                .build());
+        list.add(Costs.builder()
+                .date(LocalDate.now())
+                .id(2)
+                .value(220.0)
+                .type("U")
+                .build());
+        List<CostsResponse> listCostResponse = new ArrayList<>();
+        for (Costs costsList : list) {
+            CostsResponse costsResponse = new CostsResponse();
+            costsResponse.setType(costsList.getType());
+            costsResponse.setValue(costsList.getValue());
+            listCostResponse.add(costsResponse);
+        }
+        int month = LocalDate.now().getMonth().getValue();
+        int year = LocalDate.now().getYear();
+
+
+        //Execution
+        BDDMockito.when(costsRepository.findByMonthAndYear(month, year)).thenReturn(list);
+        List<CostsResponse> listReturned = costsService.findByType(month, year);
+
+        //Verification
+        Assertions.assertThat(listReturned).isEqualTo(listCostResponse);
+    }
 }
